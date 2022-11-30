@@ -7,8 +7,17 @@ const Header = ({props}) => {
   // const cookies = Cookies
   const [cookies, setCookie, removeCookie] = useCookies(["userLogin"]);
   const [isCookieAvailability, setCookieAvailability] = useState(false);
+  const [isIframePage, setisIframePage] = useState(false);
 
   useEffect(() => {
+
+    if (window.location !== window.parent.location ) {
+      setisIframePage(true)
+    } else {
+      setisIframePage(false)
+      console.log("it is not in iframe")
+    }
+
     const cookieData = cookies.userLogin || null
     if(cookieData) {
       setCookieAvailability(true)
@@ -29,14 +38,42 @@ const Header = ({props}) => {
     location.reload();
   }
 
+  console.log("cookies.userLogin", cookies.userLogin)
+
   return (
     <div className={style.headerContainer}>
       <div className={style.headerSection}>Header Section</div>
-      {!isCookieAvailability ? (
-        <button onClick={handleCookie} className={style.cookieButton}>Set Cookie</button>
-      ) : (
-        <button onClick={handleRemoveCookie} className={style.cookieButton}>Remove Cookie</button>
-      )}
+      {
+        !isIframePage ? (
+          <div>
+            <div>This site is not in iframe</div>
+              {
+                isCookieAvailability ? (
+                  <div>Cookie is available - {cookies.userLogin}</div>
+                ): (
+                  <div>Cookie is not available</div>
+                )
+              }
+            {
+              !isCookieAvailability ? (
+                <button onClick={handleCookie} className={style.cookieButton}>Set Cookie</button>
+              ) : (
+                <button onClick={handleRemoveCookie} className={style.cookieButton}>Remove Cookie</button>
+              )
+            }
+          </div>
+        ) : (
+          <>
+            <div>This site is in iframe</div>
+            {isCookieAvailability ? (
+                <div>Cookie is available - {cookies.userLogin}</div>
+              ): (
+                <div>Cookie is not available</div>
+              )
+            }
+          </>
+        )
+      }
      </div>
   )
 }
