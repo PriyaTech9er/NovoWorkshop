@@ -1,14 +1,15 @@
 .onboard {
-  text-align: center;
-  margin: 30px;
-  font-weight: 500;
   font-size: 18px;
+  font-weight: 500;
+  margin: 30px;
+  text-align: center;
 }
 
 .homeContainer {
   text-align: center;
+
   .btnLabel {
-    padding-right: 16px;
     font-size: 16px;
+    padding-right: 16px;
   }
 }
